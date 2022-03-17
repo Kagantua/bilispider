@@ -33,7 +33,6 @@ def get_media(ops):
     result = re.findall(pattern, html)[0]
     temp = json.loads(result)
     url = temp["data"]["dash"]["video"][0]['baseUrl']
-
     print("\n")
     print(("---开始下载视频---")+title)
     headers.update({'Referer': baseurl})
@@ -41,10 +40,7 @@ def get_media(ops):
     begin = 0
     end = 1024*1024 - 1
     flag = 0
-
     filename = "./"+title+".flv"
-
-
     while True:
         headers.update({'Range': 'bytes=' + str(begin) + '-' + str(end)})
         res = requests.get(url=url, headers=headers, verify=False)
@@ -62,11 +58,9 @@ def get_media(ops):
             pbar.update(sum)
             fp.flush()
             pbar.close()
-        
         if flag == 1:
             fp.close()
             break
-    #print('---视频下载完成---')
     pbar.close()
     print('---开始下载音频---')
     filename = "./"+title+".mp3"
@@ -81,7 +75,6 @@ def get_media(ops):
             headers.update({'Range': str(end + 1) + '-'})
             res = requests.get(url=url, headers=headers, verify=False)
             flag = 1
-            
         with open(filename, 'ab') as fp:
             fp.write(res.content)
         if flag == 1:
@@ -89,11 +82,10 @@ def get_media(ops):
             break
 
 
-    com = f'.\\ffmpeg\\ffmpeg-master-latest-win64-gpl-shared\\bin\\ffmpeg.exe  -i "{title+".mp3"}" -i "{title+".flv"}"  ' \
+    com = f'ffmpeg.exe  -i "{title+".mp3"}" -i "{title+".flv"}"  ' \
         f'-acodec copy -vcodec copy "{title+".mp4"}" 1> log.txt 2>&1 '
     os.system(com)
     os.remove(title+".flv")
-    
     if ops.file_type == "MV":
         os.remove(title+".mp3")
         print("视频合成成功")
