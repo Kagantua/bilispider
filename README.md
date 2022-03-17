@@ -19,4 +19,4 @@ Options:
 
 ### 注意：本工具需要借用ffmpeg进行视频的合成，请再使用之前安装好ffmpeg并配置好环境变量。
 
-![image-20220317193955501](https://gitee.com/snikers/picgos/raw/master/202203171939809.png)
+![image-20220317194150907](https://gitee.com/snikers/picgos/raw/master/202203171941909.png)
